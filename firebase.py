@@ -4,7 +4,7 @@ from firebase_admin import credentials
 from firebase_admin import db
 
 cred = credentials.Certificate(
-    "iot-plant-cbc8a-firebase-adminsdk-okfmw-d7939c5378.json")
+    "iot-plant-cbc8a-firebase-adminsdk-okfmw-f23b682a66.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://iot-plant-cbc8a.firebaseio.com/'
 })
