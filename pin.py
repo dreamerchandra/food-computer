@@ -1,0 +1,3 @@
+HUMIDITY = 17
+LED = 17
+PUMP = 27
