@@ -6,9 +6,9 @@ import path
 
 
 class GasSensor:
-    GasSensor._ser = serial.Serial('/dev/ttyACM0')
-    GasSensor._ser.flushInput()
-    GasSensor.cvt_raw_to_int = lambda raw_dict: [int(val) for val in json.loads(raw_dict).values()]
+    _ser = serial.Serial('/dev/ttyACM0')
+    _ser.flushInput()
+    cvt_raw_to_float = lambda raw_dict: [float(val) for val in eval(raw_dict).values()]
     
     @staticmethod
     def clean_up():
@@ -20,9 +20,12 @@ class GasSensor:
     def push_gas_to_firebase():
         while True:
           try:
-            raw_data = GasSensor._ser.readline()
-            humidity, temperature = GasSensor.cvt_raw_to_int(raw_data)
-            print('values from arduino>>> \n raw_data: {}\n humidity {}, temp'.format(raw_data, humidity, temperature))
-            push_val(path.GAS, json.loads(raw_data))
-        except:
+            raw_data = str(GasSensor._ser.readline().decode("utf-8").strip('\n').strip('\r'))
+            print (raw_data)
+            co2, humidity = GasSensor.cvt_raw_to_float(raw_data)
+            print('values from arduino>>> \n raw_data: {}\n humidity {}, co2: {}'.format(raw_data, humidity, co2))
+            push_val(path.GAS, eval(raw_data))
+          except:
             GasSensor.clean_up()
+            break
+            return
